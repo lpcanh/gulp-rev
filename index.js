@@ -129,9 +129,13 @@ plugin.manifest = (pth, opts) => {
 			return;
 		}
 
-		const revisionedFile = relPath(path.resolve(file.cwd, file.base), path.resolve(file.cwd, file.path));
+		let revisionedFile = revisionFolder + relPath(path.resolve(file.cwd, file.base), path.resolve(file.cwd, file.path));
 		const originalFile = path.join(path.dirname(revisionedFile), path.basename(file.revOrigPath)).replace(/\\/g, '/');
-
+		
+		if(opts.revisionFolder){
+			revisionedFile = opts.revisionFolder + revisionedFile;
+		}
+		
 		manifest[originalFile] = revisionedFile;
 
 		cb();
