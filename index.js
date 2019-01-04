@@ -9,7 +9,7 @@ const modifyFilename = require('modify-filename');
 const Vinyl = require('vinyl');
 const PluginError = require('plugin-error');
 
-function relPath(base, filePath) {
+function relPath(base, filePath, isGetRelative) {
 	filePath = filePath.replace(/\\/g, '/');
 	base = base.replace(/\\/g, '/');
 
@@ -19,7 +19,7 @@ function relPath(base, filePath) {
 
 	const newPath = filePath.slice(base.length);
 
-	if (newPath[0] === '/') {
+	if (isGetRelative && newPath[0] === '/') {
 		return newPath.slice(1);
 	}
 
@@ -129,7 +129,8 @@ plugin.manifest = (pth, opts) => {
 			return;
 		}
 
-		let revisionedFile = relPath(path.resolve(file.cwd, file.base), path.resolve(file.cwd, file.path));
+		const isGetRelative = opts.getRelativePath || true;
+		let revisionedFile = relPath(path.resolve(file.cwd, file.base), path.resolve(file.cwd, file.path), isGetRelative);
 		const originalFile = path.join(path.dirname(revisionedFile), path.basename(file.revOrigPath)).replace(/\\/g, '/');
 
 		if(opts.revisionFolder){
