@@ -130,7 +130,7 @@ plugin.manifest = (pth, opts) => {
 		}
 
 		let isGetRelative = true;
-		if(getRelativePath in opts){
+		if('getRelativePath' in opts){
 			isGetRelative = opts.getRelativePath;
 		}
 		let revisionedFile = relPath(path.resolve(file.cwd, file.base), path.resolve(file.cwd, file.path), isGetRelative);
