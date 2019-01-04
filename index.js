@@ -129,7 +129,10 @@ plugin.manifest = (pth, opts) => {
 			return;
 		}
 
-		const isGetRelative = opts.getRelativePath || true;
+		let isGetRelative = true;
+		if(getRelativePath in opts){
+			isGetRelative = opts.getRelativePath;
+		}
 		let revisionedFile = relPath(path.resolve(file.cwd, file.base), path.resolve(file.cwd, file.path), isGetRelative);
 		const originalFile = path.join(path.dirname(revisionedFile), path.basename(file.revOrigPath)).replace(/\\/g, '/');
 
